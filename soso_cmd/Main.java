@@ -25,7 +25,7 @@ public class Main {
 			} else if(args.length == 2) {
 				CommandProcessor.script(args[1]);
 			} else {
-				System.err.println("Usage: java shell.jar <script-filename>");
+				System.err.println("Usage: java -jar shell.jar <script-filename>");
 				System.exit(1);
 			}
 		} catch(soso_cmd.Exception e) {
