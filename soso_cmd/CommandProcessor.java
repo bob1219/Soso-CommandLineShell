@@ -117,4 +117,8 @@ private class CommandProcessor {
 			throw new soso_cmd.Exception("access denied");
 		}
 	}
+
+	private static void command_rmfile(String filename) {
+		new File(filename).delete();
+	}
 }
