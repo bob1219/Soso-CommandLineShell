@@ -150,4 +150,26 @@ private class CommandProcessor {
 			throw new soso_cmd.Exception("access denied");
 		}
 	}
+
+	private static void command_rmdir(String dirname) throws soso_cmd.Exception {
+		if(!delete(new File(dirname))) {
+			throw new soso_cmd.Exception("failed remove a directory");
+		}
+	}
+
+	private static boolean delete(File file) {
+		if(!file.exists()) {
+			return false;
+		}
+
+		if(file.isFile()) {
+			file.delete();
+		} else {
+			for(File f: file.listFiles()) {
+				if(!delete(f)) {
+					return false;
+				}
+			}
+		}
+	}
 }
