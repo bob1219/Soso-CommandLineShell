@@ -16,6 +16,7 @@
 // along with Soso-CommandLineShell. If not, see <http://www.gnu.org/licenses/>.
 
 package soso_cmd;
+import java.io.*;
 
 private class CommandProcessor {
 	public static void CommandProcess(String[] args) throws soso_cmd.Exception {
@@ -89,6 +90,16 @@ private class CommandProcessor {
 
 		default:
 			throw new soso_cmd.Exception("unknown command");
+		}
+	}
+
+	private static void command_mkfile(String filename) throws soso_cmd.Exception {
+		try {
+			new File(filename).createNewFile();
+		} catch(IOException e) {
+			throw new soso_cmd.Exception("I/O error");
+		} catch(SecurityException e) {
+			throw new soso_cmd.Exception("access denied");
 		}
 	}
 }
