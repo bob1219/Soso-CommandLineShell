@@ -15,10 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Soso-CommandLineShell. If not, see <http://www.gnu.org/licenses/>.
 
-import soso_cmd.CommandProcessor;
-import soso_cmd.ArgsSpliter;
+package soso_cmd;
 
-class Main {
+public class Main {
 	public static void main(String[] args) {
 		try {
 			if(args.length == 1) {
