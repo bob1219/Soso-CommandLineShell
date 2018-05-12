@@ -20,76 +20,91 @@ import java.io.*;
 
 private class CommandProcessor {
 	public static void CommandProcess(String[] args) throws soso_cmd.Exception {
-		switch(args[0]) {
-		case "mkfile":
-			command_mkfile(args[1]);
-			break;
-
-		case "rmfile":
-			command_rmfile(args[1]);
-			break;
-
-		case "cpfile":
-			command_cpfile(args[1], args[2]);
-			break;
-
-		case "mkdir":
-			command_mkdir(args[1]);
-			break;
-
-		case "rmdir":
-			command_rmdir(args[1]);
-			break;
-
-		case "cpdir":
-			command_cpdir(args[1]);
-			break;
-
-		case "list":
-			if(args.length == 1) {
-				command_list(".");
-			} else {
-				command_list(args[1]);
-			}
-			break;
-
-		case "tview":
-			command_tview(args[1]);
-			break;
-
-		case "bview":
-			command_bview(args[1]);
-			break;
-
-		case "app":
-			String[] appArgs = new String[args.length - 1];
-			for(int i = 1; i < args.length; ++i) {
-				appArgs[i - 1] = args[i];
-			}
-			command_app(appArgs);
-			break;
-
-		case "path":
-			switch(args[1]) {
-			case "add":
-				command_path_add(args[2]);
+		try {
+			switch(args[0]) {
+			case "mkfile":
+				command_mkfile(args[1]);
 				break;
 
-			case "del":
-				command_path_del(args[2]);
+			case "rmfile":
+				command_rmfile(args[1]);
 				break;
 
-			case "clear":
-				command_path_clear();
+			case "cpfile":
+				command_cpfile(args[1], args[2]);
 				break;
+
+			case "mkdir":
+				command_mkdir(args[1]);
+				break;
+
+			case "rmdir":
+				command_rmdir(args[1]);
+				break;
+
+			case "cpdir":
+				command_cpdir(args[1]);
+				break;
+
+			case "list":
+				if(args.length == 1) {
+					command_list(".");
+				} else {
+					command_list(args[1]);
+				}
+				break;
+
+			case "tview":
+				command_tview(args[1]);
+				break;
+
+			case "bview":
+				command_bview(args[1]);
+				break;
+
+			case "app":
+				String[] appArgs = new String[args.length - 1];
+				for(int i = 1; i < args.length; ++i) {
+					appArgs[i - 1] = args[i];
+				}
+				command_app(appArgs);
+				break;
+
+			case "path":
+				switch(args[1]) {
+				case "add":
+					command_path_add(args[2]);
+					break;
+
+				case "del":
+					command_path_del(args[2]);
+					break;
+
+				case "clear":
+					command_path_clear();
+					break;
+
+				default:
+					throw new soso_cmd.Exception("unknown option of path command");
+				}
+				break;
+
+			case "chdir":
+				command_chdir(args[1]);
+				break;
+
+			case "cwdir":
+				command_cwdir();
+				break;
+
+			case "exit":
+				System.exit(0);
 
 			default:
-				throw new soso_cmd.Exception("unknown option of path command");
+				throw new soso_cmd.Exception("unknown command");
 			}
-			break;
-
-		default:
-			throw new soso_cmd.Exception("unknown command");
+		} catch(ArrayIndexOutOfBoundsException e) {
+			throw new soso_cmd.Exception("few or many args");
 		}
 	}
 
