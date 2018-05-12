@@ -44,7 +44,7 @@ private class CommandProcessor {
 				break;
 
 			case "cpdir":
-				command_cpdir(args[1]);
+				command_cpdir(args[1], args[2]);
 				break;
 
 			case "list":
