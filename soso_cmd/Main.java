@@ -43,11 +43,15 @@ public class Main {
 		System.out.println("under certain conditions.");
 		System.out.println();
 
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
 		while(true) {
 			System.out.print('>');
 
+			String command;
+
 			try {
-				String command = new BufferedReader(new InputStreamReader(System.in)).readLine();
+				command = reader.readLine();
 			} catch(IOException e) {
 				throw new soso_cmd.Exception("standard-input input error");
 			}
