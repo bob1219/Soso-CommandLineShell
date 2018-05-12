@@ -16,6 +16,7 @@
 // along with Soso-CommandLineShell. If not, see <http://www.gnu.org/licenses/>.
 
 import soso_cmd.CommandProcessor;
+import soso_cmd.ArgsSpliter;
 
 class Main {
 	public static void main(String[] args) {
@@ -30,6 +31,28 @@ class Main {
 			}
 		} catch(soso_cmd.Exception e) {
 			System.err.println("Error: " + e);
+		}
+	}
+
+	private static void CommandLine() {
+		System.out.println("Soso-CommandLineShell");
+		System.out.println("Copyright 2018 Daiki Yoshida. All rights reserved.");
+		System.out.println();
+		System.out.println("This program comes with ABSOLUTELY NO WARRANTY.");
+		System.out.println("This is free software, and you are welcome to redistribute it");
+		System.out.println("under certain conditions.");
+		System.out.println();
+
+		while(true) {
+			System.out.print('>');
+			String command = new BufferedReader(new InputStreamReader(System.in)).readLine();
+			if(command == null || command.equals("")) {
+				continue;
+			}
+
+			CommandProcessor.CommandProcess(ArgsSpliter.split(command));
+
+			System.out.println();
 		}
 	}
 }
