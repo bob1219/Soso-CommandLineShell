@@ -169,7 +169,11 @@ private class CommandProcessor {
 		}
 
 		if(file.isFile()) {
-			file.delete();
+			try {
+				return file.delete();
+			} catch(SecurityException e) {
+				return false;
+			}
 		} else {
 			for(File f: file.listFiles()) {
 				if(!delete(f)) {
