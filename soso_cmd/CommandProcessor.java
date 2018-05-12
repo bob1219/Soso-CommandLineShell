@@ -17,6 +17,7 @@
 
 package soso_cmd;
 import java.io.*;
+import java.nio.channels.*;
 
 private class CommandProcessor {
 	public static void CommandProcess(String[] args) throws soso_cmd.Exception {
@@ -120,5 +121,23 @@ private class CommandProcessor {
 
 	private static void command_rmfile(String filename) {
 		new File(filename).delete();
+	}
+
+	private static void command_cpfile(String source, String dest) throws soso_cmd.Exception {
+		FileChannel sourceChannel = new FileInputStream(new File(source)).getChannel();
+		FileChannel destChannel = new FileOutputStream(new File(dest)).getChannel();
+
+		try {
+			sourceChannel.transferTo(0, sourceChannel.size(), destChannel);
+		} catch(IOException e) {
+			throw new soso_cmd.Exception("I/O error");
+		} finally {
+			if(sourceChannel != null) {
+				sourceChannel.close();
+			}
+			if(destChannel != null) {
+				destChannel.close();
+			}
+		}
 	}
 }
