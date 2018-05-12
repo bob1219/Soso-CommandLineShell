@@ -140,4 +140,14 @@ private class CommandProcessor {
 			}
 		}
 	}
+
+	private static void command_mkdir(String dirname) throws soso_cmd.Exception {
+		try {
+			if(!new File(dirname).mkdir()) {
+				throw new soso_cmd.Exception("failed make a directory");
+			}
+		} catch(SecurityException e) {
+			throw new soso_cmd.Exception("access denied");
+		}
+	}
 }
