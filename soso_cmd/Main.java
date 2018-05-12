@@ -16,6 +16,7 @@
 // along with Soso-CommandLineShell. If not, see <http://www.gnu.org/licenses/>.
 
 package soso_cmd;
+import java.io.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -33,7 +34,7 @@ public class Main {
 		}
 	}
 
-	private static void CommandLine() {
+	private static void CommandLine() throws soso_cmd.Exception {
 		System.out.println("Soso-CommandLineShell");
 		System.out.println("Copyright 2018 Daiki Yoshida. All rights reserved.");
 		System.out.println();
@@ -44,7 +45,13 @@ public class Main {
 
 		while(true) {
 			System.out.print('>');
-			String command = new BufferedReader(new InputStreamReader(System.in)).readLine();
+
+			try {
+				String command = new BufferedReader(new InputStreamReader(System.in)).readLine();
+			} catch(IOException e) {
+				throw new soso_cmd.Exception("standard-input input error");
+			}
+
 			if(command == null || command.equals("")) {
 				continue;
 			}
