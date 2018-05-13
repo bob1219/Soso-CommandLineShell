@@ -224,12 +224,22 @@ private class CommandProcessor {
 			throw new soso_cmd.Exception("directory \"" + dirname + "\" do not exists");
 		}
 
-		for(File f: file) {
-			if(f.isFile()) {
-				System.out.println("File:\t" + f.toString());
-			} else {
-				System.out.println("Dir:\t" + f.toString());
+		try {
+			for(File FileInTheDirectory: file.listFiles()) {
+				if(f.isFile()) {
+					System.out.println("File:\t" + f.toString());
+				} else {
+					System.out.println("Dir:\t" + f.toString());
+				}
 			}
+		} catch(NullPointerException e) {
+			if(file.isFile()) {
+				throw new soso_cmd.Exception("it is not a directory");
+			} else {
+				throw new soso_cmd.Exception("I/O error");
+			}
+		} catch(SecurityException e) {
+			throw new soso_cmd.Exception("access denied");
 		}
 	}
 }
