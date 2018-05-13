@@ -215,7 +215,7 @@ private class CommandProcessor {
 		return true;
 	}
 
-	private static void list(String dirname) throws soso_cmd.Exception {
+	private static void command_list(String dirname) throws soso_cmd.Exception {
 		File file = new File(dirname);
 
 		if(!file.exists()) {
@@ -223,11 +223,11 @@ private class CommandProcessor {
 		}
 
 		try {
-			for(File FileInTheDirectory: file.listFiles()) {
-				if(f.isFile()) {
-					System.out.println("File:\t" + f.toString());
+			for(File FileInTheDir: file.listFiles()) {
+				if(FileInTheDir.isFile()) {
+					System.out.println("File:\t" + FileInTheDir.toString());
 				} else {
-					System.out.println("Dir:\t" + f.toString());
+					System.out.println("Dir:\t" + FileInTheDir.toString());
 				}
 			}
 		} catch(NullPointerException e) {
