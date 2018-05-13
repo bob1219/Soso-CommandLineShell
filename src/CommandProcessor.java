@@ -254,5 +254,4 @@ private class CommandProcessor {
 		} catch(IOException e) {
 			throw new soso_cmd.Exception("I/O error");
 		}
-
 	}
