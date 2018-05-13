@@ -255,3 +255,53 @@ private class CommandProcessor {
 			throw new soso_cmd.Exception("I/O error");
 		}
 	}
+
+	private static void command_bview(String filename) throws soso_cmd.Exception {
+		final int FileSizeMax = 20480;
+		try(BufferedInputStream stream = new BufferedInputStream(new FileInputStream(filename))) {
+			byte[] bytes = new byte[FileSizeMax];
+			int allBytesNum = stream.read(bytes);
+			if(allBytesNum == -1) {
+				return;
+			}
+
+			byte[][] byteUnits = new byte[16][allBytesNum / 16];
+			int[] bytesNums = new byte[allBytesNum / 16];
+			for(int i = 0; i < allBytesNum / 16; ++i) {
+				int j = 0;
+				for(; j < 16 && 16 * i + j < allBytesNum; ++i) {
+					byteUnits[i][j] = bytes[16 * i + j];
+				}
+				bytesNums[i] = j + 1;
+			}
+
+			System.println("\t+0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F 0123456789ABCDEF");
+			for(int i = 0; i < byteUnits.length; ++i) {
+				System.print(Integer.toHexString(0x10 * i).toUpperCase());
+				System.print(":\t");
+
+				for(int j = 0; j < 16 && j < bytesNums[i]; ++j) {
+					System.print(Integer.toHexString(byteUnits[i][j]).toUpperCase() + ' ');
+				}
+
+				if(bytesNums[i] < 16) {
+					for(int j = 1; j <= 16 - bytesNums[i]; ++j) {
+						for(int k = 1; k <= 3; ++k) {
+							System.out.print(' ');
+						}
+					}
+				}
+
+				for(int j = 0; j < 16 && j < bytesNums[i]; ++j) {
+					System.out.println(Character.isISOControl((int)byteUnits[i][j]) ? '.' : byteUnits[i][j]);
+				}
+
+				System.out.println();
+			}
+		} catch(FileNotFoundException e) {
+			throw new soso_cmd.Exception("file \"" + filename + "\" not found");
+		} catch(IOException e) {
+			throw new soso_cmd.Exception("I/O error");
+		}
+	}
+}
