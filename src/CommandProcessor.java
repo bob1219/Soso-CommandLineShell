@@ -102,6 +102,10 @@ private class CommandProcessor {
 			case "exit":
 				System.exit(0);
 
+			case "script":
+				script(args[1]);
+				break;
+
 			default:
 				throw new soso_cmd.Exception("unknown command");
 			}
