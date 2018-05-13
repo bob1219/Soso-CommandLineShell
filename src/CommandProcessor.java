@@ -159,6 +159,7 @@ private class CommandProcessor {
 		}
 	}
 
+	// helper of command_rmdir method
 	private static boolean deleteDirectory(File file) {
 		if(!file.exists()) {
 			return false;
@@ -171,8 +172,8 @@ private class CommandProcessor {
 				return false;
 			}
 		} else {
-			for(File f: file.listFiles()) {
-				if(!deleteDirectory(f)) {
+			for(File FileInTheDir: file.listFiles()) {
+				if(!deleteDirectory(FileInTheDir)) {
 					return false;
 				}
 			}
