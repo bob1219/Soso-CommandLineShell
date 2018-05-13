@@ -255,42 +255,51 @@ private class CommandProcessor {
 	}
 
 	private static void command_bview(String filename) throws soso_cmd.Exception {
-		final int FileSizeMax = 20480;
+		final int fileSizeMax = 20480;
+		final int byteUnitSizeMax = 16;
 		try(BufferedInputStream stream = new BufferedInputStream(new FileInputStream(filename))) {
-			byte[] bytes = new byte[FileSizeMax];
-			int allBytesNum = stream.read(bytes);
+			// Read file
+			byte[] bytes = new byte[fileSizeMax];
+			final int allBytesNum = stream.read(bytes);
 			if(allBytesNum == -1) {
 				return;
 			}
 
-			byte[][] byteUnits = new byte[16][allBytesNum / 16];
-			int[] bytesNums = new byte[allBytesNum / 16];
-			for(int i = 0; i < allBytesNum / 16; ++i) {
+			// Split bytes by 16 bytes
+			final int byteUnitsNum = allBytesNum / byteUnitSizeMax;
+			byte[][] byteUnits = new byte[byteUnitSizeMax][byteUnitsNum];
+			int[] bytesNumsInByteUnits = new byte[byteUnitsNum];
+			for(int i = 0; i < byteUnitsNum; ++i) {
+				final int byteIndex = byteUnitSizeMax * i + j;
 				int j = 0;
-				for(; j < 16 && 16 * i + j < allBytesNum; ++i) {
-					byteUnits[i][j] = bytes[16 * i + j];
+				for(; byteIndex < allBytesNum; ++i) {
+					byteUnits[i][j] = bytes[byteIndex];
 				}
-				bytesNums[i] = j + 1;
+				bytesNumsInByteUnits[i] = j + 1;
 			}
 
+			// Print
 			System.println("\t+0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F 0123456789ABCDEF");
 			for(int i = 0; i < byteUnits.length; ++i) {
 				System.print(Integer.toHexString(0x10 * i).toUpperCase());
 				System.print(":\t");
 
-				for(int j = 0; j < 16 && j < bytesNums[i]; ++j) {
+				// Print binary
+				for(int j = 0; j < byteUnitSizeMax && j < bytesNumsInByteUnits[i]; ++j) {
 					System.print(Integer.toHexString(byteUnits[i][j]).toUpperCase() + ' ');
 				}
 
-				if(bytesNums[i] < 16) {
-					for(int j = 1; j <= 16 - bytesNums[i]; ++j) {
+				// Print space for view control
+				if(bytesNumsInByteUnits[i] < byteUnitSizeMax) {
+					for(int j = 1; j <= byteUnitSizeMax - bytesNumsInByteUnits[i]; ++j) {
 						for(int k = 1; k <= 3; ++k) {
 							System.out.print(' ');
 						}
 					}
 				}
 
-				for(int j = 0; j < 16 && j < bytesNums[i]; ++j) {
+				// Print ASCII character
+				for(int j = 0; j < byteUnitSizeMax && j < bytesNumsInByteUnits[i]; ++j) {
 					System.out.println(Character.isISOControl((int)byteUnits[i][j]) ? '.' : byteUnits[i][j]);
 				}
 
