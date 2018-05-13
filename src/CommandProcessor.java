@@ -173,9 +173,7 @@ private class CommandProcessor {
 			}
 		} else {
 			for(File FileInTheDir: file.listFiles()) {
-				if(!deleteDirectory(FileInTheDir)) {
-					return false;
-				}
+				return deleteDirectory(FileInTheDir);
 			}
 		}
 	}
