@@ -186,6 +186,7 @@ private class CommandProcessor {
 		}
 	}
 
+	// helper of command_cpdir method
 	private static boolean copyDirectory(File source, File dest) {
 		if(!source.exists()) {
 			return false;
@@ -201,15 +202,15 @@ private class CommandProcessor {
 			}
 		}
 
-		for(File f: source.listFiles()) {
-			if(f.isFile()) {
+		for(File FileInTheDir: source.listFiles()) {
+			if(FileInTheDir.isFile()) {
 				try {
-					Files.copy(f.toPath(), new File(dest.toString() + '/' + f.getName()).toPath(), REPLACE_EXISTING);
+					Files.copy(FileInTheDir.toPath(), new File(dest.toString() + '/' + FileInTheDir.getName()).toPath(), REPLACE_EXISTING);
 				} catch(IOException e) {
 					return false;
 				}
 			} else {
-				return copyDirectory(f, new File(dest.toString() + '/' + f.getName));
+				return copyDirectory(FileInTheDir, new File(dest.toString() + '/' + FileInTheDir.getName));
 			}
 		}
 
