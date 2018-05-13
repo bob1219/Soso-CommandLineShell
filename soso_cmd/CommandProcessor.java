@@ -173,4 +173,40 @@ private class CommandProcessor {
 			}
 		}
 	}
+
+	private static void command_cpdir(String source, String dest) throws soso_cmd.Exception {
+		if(!copyDirectory(new File(source), new File(dest))) {
+			throw new soso_cmd.Exception("failed copy directory");
+		}
+	}
+
+	private static boolean copyDirectory(File source, File dest) {
+		if(!source.exists()) {
+			return false;
+		}
+
+		if(!dest.exists()) {
+			try {
+				if(!dest.mkdir()) {
+					return false;
+				}
+			} catch(SecurityException e) {
+				return false;
+			}
+		}
+
+		for(File f: source.listFiles()) {
+			if(f.isFile()) {
+				try {
+					Files.copy(f.toPath(), new File(dest.toString() + '/' + f.getName()).toPath(), REPLACE_EXISTING);
+				} catch(IOException e) {
+					return false;
+				}
+			} else {
+				return copyDirectory(f, new File(dest.toString() + '/' + f.getName));
+			}
+		}
+
+		return true;
+	}
 }
