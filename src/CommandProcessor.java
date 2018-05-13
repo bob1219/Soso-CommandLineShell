@@ -213,4 +213,20 @@ private class CommandProcessor {
 
 		return true;
 	}
+
+	private static void list(String dirname) throws soso_cmd.Exception {
+		File file = new File(dirname);
+
+		if(!file.exists()) {
+			throw new soso_cmd.Exception("directory \"" + dirname + "\" do not exists");
+		}
+
+		for(File f: file) {
+			if(f.isFile()) {
+				System.out.println("File:\t" + f.toString());
+			} else {
+				System.out.println("Dir:\t" + f.toString());
+			}
+		}
+	}
 }
