@@ -65,6 +65,7 @@ private class CommandProcessor {
 				break;
 
 			case "app":
+				// appArgs = {args[1], args[2], ..., args[args.length - 1]};
 				String[] appArgs = new String[args.length - 1];
 				for(int i = 1; i < args.length; ++i) {
 					appArgs[i - 1] = args[i];
