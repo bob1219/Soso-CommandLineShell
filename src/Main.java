@@ -29,7 +29,7 @@ public class Main {
 				System.err.println("Usage: java -jar shell.jar <script-filename>");
 				System.exit(1);
 			}
-		} catch(soso_cmd.Exception e) {
+		} catch(Exception e) {
 			System.err.println("Error: " + e);
 		}
 	}
