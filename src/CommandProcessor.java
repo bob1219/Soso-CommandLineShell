@@ -153,12 +153,12 @@ private class CommandProcessor {
 	}
 
 	private static void command_rmdir(String dirname) throws soso_cmd.Exception {
-		if(!delete(new File(dirname))) {
+		if(!deleteDirectory(new File(dirname))) {
 			throw new soso_cmd.Exception("failed remove a directory");
 		}
 	}
 
-	private static boolean delete(File file) {
+	private static boolean deleteDirectory(File file) {
 		if(!file.exists()) {
 			return false;
 		}
@@ -171,7 +171,7 @@ private class CommandProcessor {
 			}
 		} else {
 			for(File f: file.listFiles()) {
-				if(!delete(f)) {
+				if(!deleteDirectory(f)) {
 					return false;
 				}
 			}
