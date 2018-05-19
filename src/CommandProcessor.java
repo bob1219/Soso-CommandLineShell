@@ -124,12 +124,8 @@ private class CommandProcessor {
 	}
 
 	private static void command_rmfile(String filename) throws soso_cmd.Exception {
-		try {
-			if(!new File(filename).delete()) {
-				throw new soso_cmd.Exception("failed remove a file");
-			}
-		} catch(SecurityException e) {
-			throw new soso_cmd.Exception("access denied");
+		if(!new File(filename).delete()) {
+			throw new soso_cmd.Exception("failed remove a file");
 		}
 	}
 
