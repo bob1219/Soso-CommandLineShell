@@ -273,4 +273,13 @@ private class CommandProcessor {
 			throw new soso_cmd.Exception("file \"" + filename + "\" not found");
 		}
 	}
+
+	private static void command_app(String[] cmdarray) throws IOException, soso_cmd.Exception {
+		cmdarray[0] = PathProcessor.PathProcess(cmdarray[0]);
+		try {
+			Runtime.getRuntime().exec(cmdarray);
+		} catch(IndexOutOfBoundsException e) {
+			throw new soso_cmd.Exception("few or many args");
+		}
+	}
 }
