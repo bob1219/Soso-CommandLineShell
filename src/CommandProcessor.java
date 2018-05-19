@@ -123,8 +123,12 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_mkfile(String filename) throws IOException {
-		new File(filename).createNewFile();
+	private static void command_mkfile(String filename, File cwd) throws IOException {
+		File file = new File(filename);
+		if(!file.isAbsolute()) {
+			file = new File(cwd.toString() + '/' + filename);
+		}
+		file.createNewFile();
 	}
 
 	private static void command_rmfile(String filename) throws soso_cmd.Exception {
