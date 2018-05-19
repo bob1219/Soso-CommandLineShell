@@ -207,7 +207,7 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_tview(String filename) throws soso_cmd.Exception {
+	private static void command_tview(String filename) throws soso_cmd.Exception, IOException {
 		try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 			String line;
 			for(int i = 1; (line = reader.readLine()) != null; ++i) {
@@ -215,8 +215,6 @@ private class CommandProcessor {
 			}
 		} catch(FileNotFoundException e) {
 			throw new soso_cmd.Exception("file \"" + filename + "\" not found");
-		} catch(IOException e) {
-			throw new soso_cmd.Exception("I/O error");
 		}
 	}
 
