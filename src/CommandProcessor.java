@@ -218,7 +218,7 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_bview(String filename) throws soso_cmd.Exception {
+	private static void command_bview(String filename) throws soso_cmd.Exception, IOException {
 		final int fileSizeMax = 20480;
 		final int byteUnitSizeMax = 16;
 		try(BufferedInputStream stream = new BufferedInputStream(new FileInputStream(filename))) {
@@ -271,8 +271,6 @@ private class CommandProcessor {
 			}
 		} catch(FileNotFoundException e) {
 			throw new soso_cmd.Exception("file \"" + filename + "\" not found");
-		} catch(IOException e) {
-			throw new soso_cmd.Exception("I/O error");
 		}
 	}
 }
