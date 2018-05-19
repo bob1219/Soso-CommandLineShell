@@ -87,6 +87,10 @@ private class CommandProcessor {
 					command_path_clear();
 					break;
 
+				case "list":
+					command_path_list();
+					break;
+
 				default:
 					throw new soso_cmd.Exception("unknown option of path command");
 				}
@@ -115,14 +119,8 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_mkfile(String filename) throws soso_cmd.Exception {
-		try {
-			new File(filename).createNewFile();
-		} catch(IOException e) {
-			throw new soso_cmd.Exception("I/O error");
-		} catch(SecurityException e) {
-			throw new soso_cmd.Exception("access denied");
-		}
+	private static void command_mkfile(String filename) throws IOException {
+		new File(filename).createNewFile();
 	}
 
 	private static void command_rmfile(String filename) throws soso_cmd.Exception {
