@@ -183,7 +183,7 @@ private class CommandProcessor {
 		return true;
 	}
 
-	private static void command_list(String dirname) throws soso_cmd.Exception {
+	private static void command_list(String dirname) throws soso_cmd.Exception, IOException {
 		File file = new File(dirname);
 
 		if(!file.exists()) {
@@ -202,10 +202,8 @@ private class CommandProcessor {
 			if(file.isFile()) {
 				throw new soso_cmd.Exception("it is not a directory");
 			} else {
-				throw new soso_cmd.Exception("I/O error");
+				throw new IOException();
 			}
-		} catch(SecurityException e) {
-			throw new soso_cmd.Exception("access denied");
 		}
 	}
 
