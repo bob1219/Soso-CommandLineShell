@@ -129,12 +129,8 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_cpfile(String source, String dest) throws soso_cmd.Exception {
-		try {
-			Files.copy(new File(source).toPath(), new File(dest).toPath(), REPLACE_EXISTING);
-		} catch(IOException e) {
-			throw new soso_cmd.Exception("I/O error");
-		}
+	private static void command_cpfile(String source, String dest) throws IOException {
+		Files.copy(new File(source).toPath(), new File(dest).toPath(), REPLACE_EXISTING);
 	}
 
 	private static void command_mkdir(String dirname) throws soso_cmd.Exception {
