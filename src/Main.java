@@ -34,7 +34,7 @@ public class Main {
 		}
 	}
 
-	private static void CommandLine() throws soso_cmd.Exception {
+	private static void CommandLine() throws IOException {
 		System.out.println("Soso-CommandLineShell");
 		System.out.println("Copyright 2018 Daiki Yoshida. All rights reserved.");
 		System.out.println();
@@ -48,14 +48,7 @@ public class Main {
 		while(true) {
 			System.out.print('>');
 
-			String command;
-
-			try {
-				command = reader.readLine();
-			} catch(IOException e) {
-				throw new soso_cmd.Exception("standard-input input error");
-			}
-
+			String command = reader.readLine();
 			if(command == null || command.equals("")) {
 				continue;
 			}
