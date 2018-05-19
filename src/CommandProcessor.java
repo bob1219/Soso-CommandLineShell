@@ -21,7 +21,7 @@ import java.nio.channels.*;
 import java.nio.file.*;
 
 private class CommandProcessor {
-	public static void CommandProcess(String[] args) throws soso_cmd.Exception {
+	public static void CommandProcess(String[] args) throws soso_cmd.Exception, IOException {
 		try {
 			switch(args[0]) {
 			case "mkfile":
