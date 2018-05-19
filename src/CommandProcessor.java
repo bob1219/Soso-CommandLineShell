@@ -111,6 +111,10 @@ private class CommandProcessor {
 				script(args[1]);
 				break;
 
+			case "now":
+				command_now();
+				break;
+
 			default:
 				throw new soso_cmd.Exception("unknown command");
 			}
