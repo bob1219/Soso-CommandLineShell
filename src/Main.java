@@ -34,7 +34,7 @@ public class Main {
 		}
 	}
 
-	private static void CommandLine() throws IOException {
+	private static void CommandLine() throws IOException, soso_cmd.Exception {
 		System.out.println("Soso-CommandLineShell");
 		System.out.println("Copyright 2018 Daiki Yoshida. All rights reserved.");
 		System.out.println();
