@@ -286,4 +286,19 @@ private class CommandProcessor {
 			throw new soso_cmd.Exception("few or many args");
 		}
 	}
-}
+
+	private static void command_path_add(String pathElem) {
+		PathProcessor.add(pathElem);
+	}
+
+	private static void command_path_del(String pathElem) {
+		PathProcessor.del(pathElem);
+	}
+
+	private static void command_path_clear() {
+		PathProcessor.clear();
+	}
+
+	private static void command_path_list() {
+		PathProcessor.list();
+	}
