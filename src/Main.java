@@ -44,6 +44,7 @@ public class Main {
 		System.out.println();
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		File cwd = new File(".");
 
 		while(true) {
 			System.out.print('>');
@@ -53,7 +54,7 @@ public class Main {
 				continue;
 			}
 
-			CommandProcessor.CommandProcess(ArgsSpliter.split(command));
+			CommandProcessor.CommandProcess(ArgsSpliter.split(command), cwd);
 
 			System.out.println();
 		}

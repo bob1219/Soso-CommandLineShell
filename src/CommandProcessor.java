@@ -21,66 +21,66 @@ import java.nio.channels.*;
 import java.nio.file.*;
 
 private class CommandProcessor {
-	public static void CommandProcess(String[] args) throws soso_cmd.Exception, IOException {
+	public static void CommandProcess(String[] cmdarray, File cwd) throws soso_cmd.Exception, IOException {
 		try {
-			switch(args[0]) {
+			switch(cmdarray[0]) {
 			case "mkfile":
-				command_mkfile(args[1]);
+				command_mkfile(cmdarray[1], cwd);
 				break;
 
 			case "rmfile":
-				command_rmfile(args[1]);
+				command_rmfile(cmdarray[1], cwd);
 				break;
 
 			case "cpfile":
-				command_cpfile(args[1], args[2]);
+				command_cpfile(cmdarray[1], cmdarray[2], cwd);
 				break;
 
 			case "mkdir":
-				command_mkdir(args[1]);
+				command_mkdir(cmdarray[1], cwd);
 				break;
 
 			case "rmdir":
-				command_rmdir(args[1]);
+				command_rmdir(cmdarray[1], cwd);
 				break;
 
 			case "cpdir":
-				command_cpdir(args[1], args[2]);
+				command_cpdir(cmdarray[1], cmdarray[2], cwd);
 				break;
 
 			case "list":
-				if(args.length == 1) {
-					command_list(".");
+				if(cmdarray.length == 1) {
+					command_list(cwd);
 				} else {
-					command_list(args[1]);
+					command_list(new File(cmdarray[1]));
 				}
 				break;
 
 			case "tview":
-				command_tview(args[1]);
+				command_tview(cmdarray[1], cwd);
 				break;
 
 			case "bview":
-				command_bview(args[1]);
+				command_bview(cmdarray[1], cwd);
 				break;
 
 			case "app":
-				// appArgs = {args[1], args[2], ..., args[args.length - 1]};
-				String[] appArgs = new String[args.length - 1];
-				for(int i = 1; i < args.length; ++i) {
-					appArgs[i - 1] = args[i];
+				// appArgs = {cmdarray[1], cmdarray[2], ..., cmdarray[cmdarray.length - 1]};
+				String[] appArgs = new String[cmdarray.length - 1];
+				for(int i = 1; i < cmdarray.length; ++i) {
+					appArgs[i - 1] = cmdarray[i];
 				}
-				command_app(appArgs);
+				command_app(appArgs, cwd);
 				break;
 
 			case "path":
-				switch(args[1]) {
+				switch(cmdarray[1]) {
 				case "add":
-					command_path_add(args[2]);
+					command_path_add(cmdarray[2]);
 					break;
 
 				case "del":
-					command_path_del(args[2]);
+					command_path_del(cmdarray[2]);
 					break;
 
 				case "clear":
@@ -97,18 +97,18 @@ private class CommandProcessor {
 				break;
 
 			case "chdir":
-				command_chdir(args[1]);
+				cwd = command_chdir(cmdarray[1]);
 				break;
 
 			case "cwdir":
-				command_cwdir();
+				System.out.println(cwd.toString());
 				break;
 
 			case "exit":
 				System.exit(0);
 
 			case "script":
-				script(args[1]);
+				script(cmdarray[1], cwd);
 				break;
 
 			case "now":
