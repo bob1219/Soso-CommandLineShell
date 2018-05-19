@@ -160,35 +160,21 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_cpdir(String source, String dest) throws soso_cmd.Exception {
+	private static void command_cpdir(String source, String dest) throws soso_cmd.Exception, IOException {
 		if(!copyDirectory(new File(source), new File(dest))) {
 			throw new soso_cmd.Exception("failed copy directory");
 		}
 	}
 
 	// helper of command_cpdir method
-	private static boolean copyDirectory(File source, File dest) {
-		if(!source.exists()) {
+	private static boolean copyDirectory(File source, File dest) throws IOException {
+		if(!source.exists() || (!dest.exists() && !dest.mkdir())) {
 			return false;
-		}
-
-		if(!dest.exists()) {
-			try {
-				if(!dest.mkdir()) {
-					return false;
-				}
-			} catch(SecurityException e) {
-				return false;
-			}
 		}
 
 		for(File FileInTheDir: source.listFiles()) {
 			if(FileInTheDir.isFile()) {
-				try {
-					Files.copy(FileInTheDir.toPath(), new File(dest.toString() + '/' + FileInTheDir.getName()).toPath(), REPLACE_EXISTING);
-				} catch(IOException e) {
-					return false;
-				}
+				Files.copy(FileInTheDir.toPath(), new File(dest.toString() + '/' + FileInTheDir.getName()).toPath(), REPLACE_EXISTING);
 			} else {
 				return copyDirectory(FileInTheDir, new File(dest.toString() + '/' + FileInTheDir.getName));
 			}
