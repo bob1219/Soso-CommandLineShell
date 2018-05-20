@@ -17,7 +17,7 @@
 
 package soso_cmd;
 
-private class ArgsSpliter {
+public class ArgsSpliter {
 	public static String[] split(String command) {
 		return command.split(" ");
 	}

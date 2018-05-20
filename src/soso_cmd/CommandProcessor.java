@@ -19,9 +19,10 @@ package soso_cmd;
 import java.io.*;
 import java.nio.channels.*;
 import java.nio.file.*;
+import java.util.*;
 
-private class CommandProcessor {
-	public static void CommandProcess(String[] cmdarray, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+public class CommandProcessor {
+	public static void CommandProcess(String[] cmdarray, CurrentWorkingDirectory cwd) throws LogicException, IOException {
 		try {
 			switch(cmdarray[0]) {
 			case "mkfile":
@@ -92,7 +93,7 @@ private class CommandProcessor {
 					break;
 
 				default:
-					throw new soso_cmd.Exception("unknown option of path command");
+					throw new LogicException("unknown option of path command");
 				}
 				break;
 
@@ -117,42 +118,42 @@ private class CommandProcessor {
 				break;
 
 			default:
-				throw new soso_cmd.Exception("unknown command");
+				throw new LogicException("unknown command");
 			}
 		} catch(ArrayIndexOutOfBoundsException e) {
-			throw new soso_cmd.Exception("few or many args");
+			throw new LogicException("few or many args");
 		}
 	}
 
-	private static void command_mkfile(String filename, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
+	private static void command_mkfile(String filename, CurrentWorkingDirectory cwd) throws IOException, LogicException {
 		if(!cwd.getAbsolutePath(new File(filename)).createNewFile()) {
-			throw new soso_cmd.Exception("failed make a file");
+			throw new LogicException("failed make a file");
 		}
 	}
 
-	private static void command_rmfile(String filename, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
+	private static void command_rmfile(String filename, CurrentWorkingDirectory cwd) throws LogicException {
 		if(!cwd.getAbsolutePath(new File(filename)).delete()) {
-			throw new soso_cmd.Exception("failed remove a file");
+			throw new LogicException("failed remove a file");
 		}
 	}
 
-	private static void command_cpfile(String source, String dest, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
+	private static void command_cpfile(String source, String dest, CurrentWorkingDirectory cwd) throws IOException, LogicException {
 		try {
-			Files.copy(cwd.getAbsolutePath(new File(source)).toPath(), cwd.getAbsolutePath(new File(dest)).toPath(), REPLACE_EXISTING);
+			Files.copy(cwd.getAbsolutePath(new File(source)).toPath(), cwd.getAbsolutePath(new File(dest)).toPath(), StandardCopyOption.REPLACE_EXISTING);
 		} catch(DirectoryNotEmptyException e) {
-			throw new soso_cmd.Exception("please use cpdir command for copy a not empty directory");
+			throw new LogicException("please use cpdir command for copy a not empty directory");
 		}
 	}
 
-	private static void command_mkdir(String dirname, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
+	private static void command_mkdir(String dirname, CurrentWorkingDirectory cwd) throws LogicException {
 		if(!cwd.getAbsolutePath(new File(dirname)).mkdir()) {
-			throw new soso_cmd.Exception("failed make a directory");
+			throw new LogicException("failed make a directory");
 		}
 	}
 
-	private static void command_rmdir(String dirname, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
+	private static void command_rmdir(String dirname, CurrentWorkingDirectory cwd) throws LogicException {
 		if(!deleteDirectory(cwd.getAbsolutePath(new File(dirname)))) {
-			throw new soso_cmd.Exception("failed remove a directory");
+			throw new LogicException("failed remove a directory");
 		}
 	}
 
@@ -174,9 +175,9 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_cpdir(String source, String dest, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+	private static void command_cpdir(String source, String dest, CurrentWorkingDirectory cwd) throws LogicException, IOException {
 		if(!copyDirectory(cwd.getAbsolutePath(new File(source)), cwd.getAbsolutePath(new File(dest)))) {
-			throw new soso_cmd.Exception("failed copy directory");
+			throw new LogicException("failed copy directory");
 		}
 	}
 
@@ -201,11 +202,11 @@ private class CommandProcessor {
 		return true;
 	}
 
-	private static void command_list(String dirname, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+	private static void command_list(String dirname, CurrentWorkingDirectory cwd) throws LogicException, IOException {
 		File file = cwd.getAbsolutePath(new File(dirname));
 
 		if(!file.exists()) {
-			throw new soso_cmd.Exception("the directory do not exists");
+			throw new LogicException("the directory do not exists");
 		}
 
 		try {
@@ -218,25 +219,25 @@ private class CommandProcessor {
 			}
 		} catch(NullPointerException e) {
 			if(file.isFile()) {
-				throw new soso_cmd.Exception("it is not a directory");
+				throw new LogicException("it is not a directory");
 			} else {
 				throw new IOException();
 			}
 		}
 	}
 
-	private static void command_tview(String filename, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+	private static void command_tview(String filename, CurrentWorkingDirectory cwd) throws LogicException, IOException {
 		try(BufferedReader reader = new BufferedReader(new FileReader(cwd.getAbsolutePath(new File(filename))))) {
 			String line;
 			for(int i = 1; (line = reader.readLine()) != null; ++i) {
 				System.out.println(i + ":\t" + line);
 			}
 		} catch(FileNotFoundException e) {
-			throw new soso_cmd.Exception("file not found");
+			throw new LogicException("file not found");
 		}
 	}
 
-	private static void command_bview(String filename, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+	private static void command_bview(String filename, CurrentWorkingDirectory cwd) throws LogicException, IOException {
 		final int fileSizeMax = 20480;
 		final int byteUnitSizeMax = 16;
 		try(BufferedInputStream stream = new BufferedInputStream(new FileInputStream(cwd.getAbsolutePath(new File(filename))))) {
@@ -250,25 +251,24 @@ private class CommandProcessor {
 			// Split bytes by 16 bytes
 			final int byteUnitsNum = allBytesNum / byteUnitSizeMax;
 			byte[][] byteUnits = new byte[byteUnitSizeMax][byteUnitsNum];
-			int[] bytesNumsInByteUnits = new byte[byteUnitsNum];
+			int[] bytesNumsInByteUnits = new int[byteUnitsNum];
 			for(int i = 0; i < byteUnitsNum; ++i) {
-				final int byteIndex = byteUnitSizeMax * i + j;
 				int j = 0;
-				for(; byteIndex < allBytesNum; ++i) {
+				for(int byteIndex = byteUnitSizeMax * i + j; byteIndex < allBytesNum; ++j) {
 					byteUnits[i][j] = bytes[byteIndex];
 				}
 				bytesNumsInByteUnits[i] = j + 1;
 			}
 
 			// Print
-			System.println("\t+0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F 0123456789ABCDEF");
+			System.out.println("\t+0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F 0123456789ABCDEF");
 			for(int i = 0; i < byteUnits.length; ++i) {
-				System.print(Integer.toHexString(0x10 * i).toUpperCase());
-				System.print(":\t");
+				System.out.print(Integer.toHexString(0x10 * i).toUpperCase());
+				System.out.print(":\t");
 
 				// Print binary
 				for(int j = 0; j < byteUnitSizeMax && j < bytesNumsInByteUnits[i]; ++j) {
-					System.print(Integer.toHexString(byteUnits[i][j]).toUpperCase() + ' ');
+					System.out.print(Integer.toHexString(byteUnits[i][j]).toUpperCase() + ' ');
 				}
 
 				// Print space for view control
@@ -288,24 +288,24 @@ private class CommandProcessor {
 				System.out.println();
 			}
 		} catch(FileNotFoundException e) {
-			throw new soso_cmd.Exception("file not found");
+			throw new LogicException("file not found");
 		}
 	}
 
-	private static void command_app(String[] cmdarray, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
+	private static void command_app(String[] cmdarray, CurrentWorkingDirectory cwd) throws IOException, LogicException {
 		if((cmdarray[0] = PathProcessor.PathProcess(cmdarray[0], cwd)) == null) {
-			throw new soso_cmd.Exception("file not found");
+			throw new LogicException("file not found");
 		}
 
 		ProcessBuilder pb = new ProcessBuilder(cmdarray);
-		pb.directory(cmd.getCurrentWorkingDirectory());
+		pb.directory(cwd.getCurrentWorkingDirectory());
 		try(BufferedReader reader = new BufferedReader(new InputStreamReader(pb.start().getInputStream()))) {
 			String line;
 			while((line = reader.readLine()) != null) {
 				System.out.println(line);
 			}
 		} catch(IndexOutOfBoundsException e) {
-			throw new soso_cmd.Exception("few args");
+			throw new LogicException("few args");
 		}
 	}
 
@@ -313,9 +313,9 @@ private class CommandProcessor {
 		PathProcessor.add(pathElem);
 	}
 
-	private static void command_path_del(String pathElem) throws soso_cmd.Exception {
+	private static void command_path_del(String pathElem) throws LogicException {
 		if(!PathProcessor.del(pathElem)) {
-			throw new soso_cmd.Exception("the element do not exists");
+			throw new LogicException("the element do not exists");
 		}
 	}
 
@@ -341,14 +341,14 @@ private class CommandProcessor {
 		System.out.println(new Date().toString());
 	}
 
-	public static void script(String filename, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
+	public static void script(String filename, CurrentWorkingDirectory cwd) throws IOException, LogicException {
 		try(BufferedReader reader = new BufferedReader(new FileReader(cwd.getAbsolutePath(new File(filename))))) {
 			String command;
 			while((command = reader.readLine()) != null) {
 				CommandProcess(ArgsSpliter.split(command), cwd);
 			}
 		} catch(FileNotFoundException e) {
-			throw new soso_cmd.Exception("file not found");
+			throw new LogicException("file not found");
 		}
 	}
 }

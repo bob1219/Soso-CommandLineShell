@@ -18,7 +18,7 @@
 package soso_cmd;
 import java.io.*;
 
-private class CurrentWorkingDirectory {
+public class CurrentWorkingDirectory {
 	private File cwd;
 
 	public CurrentWorkingDirectory() {
@@ -48,7 +48,7 @@ private class CurrentWorkingDirectory {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj != null && (this == obj || (getClass() == obj.getClass() && cwd.equals(obj.cwd)));
+		return obj != null && (this == obj || (getClass() == obj.getClass() && cwd.equals(((CurrentWorkingDirectory)obj).cwd)));
 	}
 
 	@Override

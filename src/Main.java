@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Soso-CommandLineShell. If not, see <http://www.gnu.org/licenses/>.
 
-package soso_cmd;
 import java.io.*;
+import soso_cmd.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class Main {
 			if(args.length == 1) {
 				CommandLine();
 			} else if(args.length == 2) {
-				CommandProcessor.script(args[1]);
+				CommandProcessor.script(args[1], new CurrentWorkingDirectory());
 			} else {
 				System.err.println("Usage: java -jar shell.jar <script-filename>");
 				System.exit(1);
@@ -34,7 +34,7 @@ public class Main {
 		}
 	}
 
-	private static void CommandLine() throws IOException, soso_cmd.Exception {
+	private static void CommandLine() throws IOException, LogicException {
 		System.out.println("Soso-CommandLineShell");
 		System.out.println("Copyright 2018 Daiki Yoshida. All rights reserved.");
 		System.out.println();

@@ -16,8 +16,10 @@
 // along with Soso-CommandLineShell. If not, see <http://www.gnu.org/licenses/>.
 
 package soso_cmd;
+import java.util.*;
+import java.io.*;
 
-private class PathProcessor {
+public class PathProcessor {
 	public static String PathProcess(String filename, CurrentWorkingDirectory cwd) {
 		if(new File(filename).isAbsolute()) {
 			return filename;
@@ -37,7 +39,7 @@ private class PathProcessor {
 
 	public static void add(String elem) {
 		ArrayList<File> paths = read();
-		read.add(new File(elem));
+		read().add(new File(elem));
 		write(paths);
 	}
 
@@ -64,7 +66,7 @@ private class PathProcessor {
 	}
 
 	private static ArrayList<File> read() throws IOException {
-		ArrayList<File> paths;
+		ArrayList<File> paths = new ArrayList<File>();
 		try(BufferedReader reader = new BufferedReader(new FileReader("./../PATHS"))) {
 			String line;
 			while((line = reader.readLine()) != null) {
