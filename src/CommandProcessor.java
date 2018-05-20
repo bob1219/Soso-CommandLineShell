@@ -212,8 +212,8 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_tview(String filename) throws soso_cmd.Exception, IOException {
-		try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+	private static void command_tview(String filename, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+		try(BufferedReader reader = new BufferedReader(new FileReader(cwd.getAbsolutePath(new File(filename))))) {
 			String line;
 			for(int i = 1; (line = reader.readLine()) != null; ++i) {
 				System.out.println(i + ":\t" + line);
