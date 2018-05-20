@@ -144,8 +144,8 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_rmdir(String dirname) throws soso_cmd.Exception {
-		if(!deleteDirectory(new File(dirname))) {
+	private static void command_rmdir(String dirname, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
+		if(!deleteDirectory(cwd.getAbsolutePath(new File(dirname)))) {
 			throw new soso_cmd.Exception("failed remove a directory");
 		}
 	}
