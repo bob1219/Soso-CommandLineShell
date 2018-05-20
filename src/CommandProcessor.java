@@ -165,8 +165,8 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_cpdir(String source, String dest) throws soso_cmd.Exception, IOException {
-		if(!copyDirectory(new File(source), new File(dest))) {
+	private static void command_cpdir(String source, String dest, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+		if(!copyDirectory(cwd.getAbsolutePath(new File(source)), cwd.getAbsolutePath(new File(dest)))) {
 			throw new soso_cmd.Exception("failed copy directory");
 		}
 	}
