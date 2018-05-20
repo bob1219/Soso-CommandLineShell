@@ -320,3 +320,15 @@ private class CommandProcessor {
 	private static void command_now() {
 		System.out.println(new Date().toString());
 	}
+
+	public static void script(String filename, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
+		try(BufferedReader reader = new BufferedReader(new FileReader(cwd.getAbsolutePath(new File(filename))))) {
+			String command;
+			while((command = reader.readLine()) != null) {
+				CommandProcess(ArgsSpliter.split(command), cwd);
+			}
+		} catch(FileNotFoundException e) {
+			throw new soso_cmd.Exception("file \"" + filename + "\" not found");
+		}
+	}
+}
