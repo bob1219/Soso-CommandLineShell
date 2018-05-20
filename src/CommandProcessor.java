@@ -166,8 +166,11 @@ private class CommandProcessor {
 			return file.delete();
 		} else {
 			for(File FileInTheDir: file.listFiles()) {
-				return deleteDirectory(FileInTheDir);
+				if(!deleteDirectory(FileInTheDir)) {
+					return false;
+				}
 			}
+			return file.delete();
 		}
 	}
 
