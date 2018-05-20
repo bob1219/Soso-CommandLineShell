@@ -223,10 +223,10 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_bview(String filename) throws soso_cmd.Exception, IOException {
+	private static void command_bview(String filename, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
 		final int fileSizeMax = 20480;
 		final int byteUnitSizeMax = 16;
-		try(BufferedInputStream stream = new BufferedInputStream(new FileInputStream(filename))) {
+		try(BufferedInputStream stream = new BufferedInputStream(new FileInputStream(cwd.getAbsolutePath(new File(filename))))) {
 			// Read file
 			byte[] bytes = new byte[fileSizeMax];
 			final int allBytesNum = stream.read(bytes);
