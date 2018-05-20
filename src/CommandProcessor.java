@@ -124,8 +124,10 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_mkfile(String filename, CurrentWorkingDirectory cwd) throws IOException {
-		cwd.getAbsolutePath(new File(filename)).createNewFile();
+	private static void command_mkfile(String filename, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
+		if(!cwd.getAbsolutePath(new File(filename)).createNewFile()) {
+			throw new soso_cmd.Exception("failed make a file");
+		}
 	}
 
 	private static void command_rmfile(String filename, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
