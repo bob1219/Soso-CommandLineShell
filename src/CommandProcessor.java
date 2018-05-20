@@ -21,7 +21,7 @@ import java.nio.channels.*;
 import java.nio.file.*;
 
 private class CommandProcessor {
-	public static void CommandProcess(String[] cmdarray, File cwd) throws soso_cmd.Exception, IOException {
+	public static void CommandProcess(String[] cmdarray, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
 		try {
 			switch(cmdarray[0]) {
 			case "mkfile":
@@ -50,9 +50,9 @@ private class CommandProcessor {
 
 			case "list":
 				if(cmdarray.length == 1) {
-					command_list(cwd);
+					command_list(cwd.toString());
 				} else {
-					command_list(new File(cmdarray[1]));
+					command_list(cmdarray[1]);
 				}
 				break;
 
@@ -65,12 +65,12 @@ private class CommandProcessor {
 				break;
 
 			case "app":
-				// appArgs = {cmdarray[1], cmdarray[2], ..., cmdarray[cmdarray.length - 1]};
+				// appArgs = {cmdarray[1], cmdarray[2], ..., cmdarray[cmdarray.length - 1]}
 				String[] appArgs = new String[cmdarray.length - 1];
 				for(int i = 1; i < cmdarray.length; ++i) {
 					appArgs[i - 1] = cmdarray[i];
 				}
-				command_app(appArgs, cwd);
+				command_app(appArgs);
 				break;
 
 			case "path":
@@ -96,16 +96,17 @@ private class CommandProcessor {
 				}
 				break;
 
-			case "chdir":
-				cwd = command_chdir(cmdarray[1]);
-				break;
-
 			case "cwdir":
-				System.out.println(cwd.toString());
+				if(cmdarray.length == 1) {
+					command_cwdir_get();
+				} else {
+					command_cwdir_set(cmdarray[1]);
+				}
 				break;
 
 			case "exit":
 				System.exit(0);
+				break;
 
 			case "script":
 				script(cmdarray[1], cwd);
