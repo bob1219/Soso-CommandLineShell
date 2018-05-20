@@ -136,8 +136,12 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_cpfile(String source, String dest, CurrentWorkingDirectory cwd) throws IOException {
-		Files.copy(cwd.getAbsolutePath(new File(source)).toPath(), cwd.getAbsolutePath(new File(dest)).toPath(), REPLACE_EXISTING);
+	private static void command_cpfile(String source, String dest, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
+		try {
+			Files.copy(cwd.getAbsolutePath(new File(source)).toPath(), cwd.getAbsolutePath(new File(dest)).toPath(), REPLACE_EXISTING);
+		} catch(DirectoryNotEmptyException e) {
+			throw new soso_cmd.Exception("please use cpdir command for copy a not empty directory");
+		}
 	}
 
 	private static void command_mkdir(String dirname, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
