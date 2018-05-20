@@ -290,7 +290,7 @@ private class CommandProcessor {
 	}
 
 	private static void command_app(String[] cmdarray, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
-		cmdarray[0] = PathProcessor.PathProcess(cmdarray[0]);
+		cmdarray[0] = PathProcessor.PathProcess(cmdarray[0], cwd);
 		ProcessBuilder pb = new ProcessBuilder(cmdarray);
 		pb.directory(cmd.getCurrentWorkingDirectory());
 		try(BufferedReader reader = new BufferedReader(new InputStreamReader(pb.start().getInputStream()))) {
