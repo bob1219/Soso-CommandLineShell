@@ -50,9 +50,9 @@ private class CommandProcessor {
 
 			case "list":
 				if(cmdarray.length == 1) {
-					command_list(cwd.toString());
+					command_list(".", cwd);
 				} else {
-					command_list(cmdarray[1]);
+					command_list(cmdarray[1], cwd);
 				}
 				break;
 
@@ -188,8 +188,8 @@ private class CommandProcessor {
 		return true;
 	}
 
-	private static void command_list(String dirname) throws soso_cmd.Exception, IOException {
-		File file = new File(dirname);
+	private static void command_list(String dirname, CurrentWorkingDirectory cwd) throws soso_cmd.Exception, IOException {
+		File file = cwd.getAbsolutePath(new File(dirname));
 
 		if(!file.exists()) {
 			throw new soso_cmd.Exception("directory \"" + dirname + "\" do not exists");
