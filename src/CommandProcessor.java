@@ -316,3 +316,7 @@ private class CommandProcessor {
 	private static void command_cwdir_set(String dirname, CurrentWorkingDirectory cwd) {
 		cwd.setCurrentWorkingDirectory(new File(dirname));
 	}
+
+	private static void command_now() {
+		System.out.println(new Date().toString());
+	}
