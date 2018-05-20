@@ -128,8 +128,8 @@ private class CommandProcessor {
 		cwd.getAbsolutePath(new File(filename)).createNewFile();
 	}
 
-	private static void command_rmfile(String filename) throws soso_cmd.Exception {
-		if(!new File(filename).delete()) {
+	private static void command_rmfile(String filename, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
+		if(!cwd.getAbsolutePath(new File(filename)).delete()) {
 			throw new soso_cmd.Exception("failed remove a file");
 		}
 	}
