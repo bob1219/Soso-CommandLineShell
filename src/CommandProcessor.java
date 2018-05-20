@@ -202,15 +202,15 @@ private class CommandProcessor {
 		File file = cwd.getAbsolutePath(new File(dirname));
 
 		if(!file.exists()) {
-			throw new soso_cmd.Exception("directory \"" + dirname + "\" do not exists");
+			throw new soso_cmd.Exception("the directory do not exists");
 		}
 
 		try {
 			for(File FileInTheDir: file.listFiles()) {
 				if(FileInTheDir.isFile()) {
-					System.out.println("File:\t" + FileInTheDir.toString());
+					System.out.println("File:\t" + FileInTheDir.getName());
 				} else {
-					System.out.println("Dir:\t" + FileInTheDir.toString());
+					System.out.println("Dir:\t" + FileInTheDir.getName());
 				}
 			}
 		} catch(NullPointerException e) {
