@@ -185,9 +185,13 @@ private class CommandProcessor {
 
 		for(File FileInTheDir: source.listFiles()) {
 			if(FileInTheDir.isFile()) {
-				Files.copy(FileInTheDir.toPath(), new File(dest.toString() + '/' + FileInTheDir.getName()).toPath(), REPLACE_EXISTING);
+				try {
+					Files.copy(FileInTheDir.toPath(), new File(dest.toString() + '/' + FileInTheDir.getName()).toPath(), StandardCopyOption.REPLACE_EXISTING);
+				} catch(DirectoryNotEmptyException e) {} // DirectoryNotEmptyException does not occur as long as the Java VM does not go mad
 			} else {
-				return copyDirectory(FileInTheDir, new File(dest.toString() + '/' + FileInTheDir.getName));
+				if(!copyDirectory(FileInTheDir, new File(dest.toString() + '/' + FileInTheDir.getName()))) {
+					return false;
+				}
 			}
 		}
 
