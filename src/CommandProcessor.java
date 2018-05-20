@@ -134,8 +134,8 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_cpfile(String source, String dest) throws IOException {
-		Files.copy(new File(source).toPath(), new File(dest).toPath(), REPLACE_EXISTING);
+	private static void command_cpfile(String source, String dest, CurrentWorkingDirectory cwd) throws IOException {
+		Files.copy(cwd.getAbsolutePath(new File(source)).toPath(), cwd.getAbsolutePath(new File(dest)).toPath(), REPLACE_EXISTING);
 	}
 
 	private static void command_mkdir(String dirname) throws soso_cmd.Exception {
