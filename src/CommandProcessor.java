@@ -290,7 +290,10 @@ private class CommandProcessor {
 	}
 
 	private static void command_app(String[] cmdarray, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
-		cmdarray[0] = PathProcessor.PathProcess(cmdarray[0], cwd);
+		if((cmdarray[0] = PathProcessor.PathProcess(cmdarray[0], cwd)) == null) {
+			throw new soso_cmd.Exception("file not found");
+		}
+
 		ProcessBuilder pb = new ProcessBuilder(cmdarray);
 		pb.directory(cmd.getCurrentWorkingDirectory());
 		try(BufferedReader reader = new BufferedReader(new InputStreamReader(pb.start().getInputStream()))) {
