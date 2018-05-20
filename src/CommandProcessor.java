@@ -138,8 +138,8 @@ private class CommandProcessor {
 		Files.copy(cwd.getAbsolutePath(new File(source)).toPath(), cwd.getAbsolutePath(new File(dest)).toPath(), REPLACE_EXISTING);
 	}
 
-	private static void command_mkdir(String dirname) throws soso_cmd.Exception {
-		if(!new File(dirname).mkdir()) {
+	private static void command_mkdir(String dirname, CurrentWorkingDirectory cwd) throws soso_cmd.Exception {
+		if(!cwd.getAbsolutePath(new File(dirname)).mkdir()) {
 			throw new soso_cmd.Exception("failed make a directory");
 		}
 	}
