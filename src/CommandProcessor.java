@@ -285,7 +285,7 @@ private class CommandProcessor {
 				System.out.println();
 			}
 		} catch(FileNotFoundException e) {
-			throw new soso_cmd.Exception("file \"" + filename + "\" not found");
+			throw new soso_cmd.Exception("file not found");
 		}
 	}
 
