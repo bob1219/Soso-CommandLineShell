@@ -100,7 +100,7 @@ private class CommandProcessor {
 				if(cmdarray.length == 1) {
 					command_cwdir_get();
 				} else {
-					command_cwdir_set(cmdarray[1]);
+					cwd = command_cwdir_set(cmdarray[1]);
 				}
 				break;
 
