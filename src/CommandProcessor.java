@@ -310,8 +310,10 @@ private class CommandProcessor {
 		PathProcessor.add(pathElem);
 	}
 
-	private static void command_path_del(String pathElem) {
-		PathProcessor.del(pathElem);
+	private static void command_path_del(String pathElem) throws soso_cmd.Exception {
+		if(!PathProcessor.del(pathElem)) {
+			throw new soso_cmd.Exception("the element do not exists");
+		}
 	}
 
 	private static void command_path_clear() {
