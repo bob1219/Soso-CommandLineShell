@@ -338,7 +338,7 @@ private class CommandProcessor {
 				CommandProcess(ArgsSpliter.split(command), cwd);
 			}
 		} catch(FileNotFoundException e) {
-			throw new soso_cmd.Exception("file \"" + filename + "\" not found");
+			throw new soso_cmd.Exception("file not found");
 		}
 	}
 }
