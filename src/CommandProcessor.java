@@ -98,9 +98,9 @@ private class CommandProcessor {
 
 			case "cwdir":
 				if(cmdarray.length == 1) {
-					command_cwdir_get();
+					command_cwdir_get(cwd);
 				} else {
-					cwd = command_cwdir_set(cmdarray[1]);
+					cwd = command_cwdir_set(cmdarray[1], cwd);
 				}
 				break;
 
@@ -302,4 +302,12 @@ private class CommandProcessor {
 
 	private static void command_path_list() {
 		PathProcessor.list();
+	}
+
+	private static void command_cwdir_get(CurrentWorkingDirectory cwd) {
+		System.out.println(cwd.toString());
+	}
+
+	private static CurrentWorkingDirectory command_cwdir_set(String dirname, CurrentWorkingDirectory cwd) {
+		cwd.setCurrentWorkingDirectory(new File(dirname));
 	}
