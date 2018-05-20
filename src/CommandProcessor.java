@@ -70,7 +70,7 @@ private class CommandProcessor {
 				for(int i = 1; i < cmdarray.length; ++i) {
 					appArgs[i - 1] = cmdarray[i];
 				}
-				command_app(appArgs);
+				command_app(appArgs, cwd);
 				break;
 
 			case "path":
@@ -279,12 +279,17 @@ private class CommandProcessor {
 		}
 	}
 
-	private static void command_app(String[] cmdarray) throws IOException, soso_cmd.Exception {
+	private static void command_app(String[] cmdarray, CurrentWorkingDirectory cwd) throws IOException, soso_cmd.Exception {
 		cmdarray[0] = PathProcessor.PathProcess(cmdarray[0]);
-		try {
-			Runtime.getRuntime().exec(cmdarray);
+		ProcessBuilder pb = new ProcessBuilder(cmdarray);
+		pb.directory(cmd.getCurrentWorkingDirectory());
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(pb.start().getInputStream()))) {
+			String line;
+			while((line = reader.readLine()) != null) {
+				System.out.println(line);
+			}
 		} catch(IndexOutOfBoundsException e) {
-			throw new soso_cmd.Exception("few or many args");
+			throw new soso_cmd.Exception("few args");
 		}
 	}
 
