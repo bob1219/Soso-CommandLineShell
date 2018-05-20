@@ -321,7 +321,9 @@ private class CommandProcessor {
 	}
 
 	private static void command_path_list() {
-		PathProcessor.list();
+		for(File path: PathProcessor.getPaths()) {
+			System.out.println(path.toString());
+		}
 	}
 
 	private static void command_cwdir_get(CurrentWorkingDirectory cwd) {
